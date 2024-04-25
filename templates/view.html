@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>View File</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body>
+    <header style="width: 15%; height: 100vh; flex-direction: column; position: fixed;">
+        <nav style="width: 15%; height: 100vh; position: fixed; flex-direction: column; align-items: start; justify-content: space-around;">
+            <h1>{{ file.filename }}</h1>
+            <ul style="padding: 0px; flex-direction: column; align-items: start; justify-content: start; text-align: left;">
+                <li><a href="{{ url_for('home') }}">Home </a></li>
+                <li><a href="{{ url_for('upload') }}">Upload </a></li>
+        
+                {% if current_user.is_authenticated %}
+                <a href="{{ url_for('logout') }}">Logout</a>
+                 {% else %}
+                <li><a href="{{ url_for('register') }}">Register</a></li>
+                <li><a href="{{ url_for('login') }}">Login</a></li>
+                {% endif %}
+            </ul>
+            <a href="{{ url_for('upload') }}">Back</a>  
+            <h1>LOGO</h1>
+        </nav>
+    </header>
+
+    <main>
+        <embed src="{{ url_for('static', filename='uploads/' + file.filename) }}#zoom=80" style="width: 50%; height: 100vh;" type="application/pdf">
+    </main>
+
+    <header style="width: 15%; height: 100vh; flex-direction: column; position: fixed; right: 0%; top: 0%;">
+        <nav style="width: 15%; height: 100vh; position: fixed; flex-direction: column; align-items: start; justify-content: space-around;">
+            <h1>Toolbar</h1>
+            <ul style="padding: 0px; flex-direction: column; align-items: start; justify-content: start; text-align: left;">
+                <a>{{ total_pages }} Pages</a> 
+                <!-- <li><a href="{{ url_for('upload') }}">Upload </a></li> -->
+        
+                <!-- {% if current_user.is_authenticated %}
+                <a href="{{ url_for('logout') }}">Logout</a>
+                {% else %}
+                <li><a href="{{ url_for('register') }}">Register</a></li>
+                <li><a href="{{ url_for('login') }}">Login</a></li>
+                {% endif %} -->
+            </ul>
+            {% if current_user.username == file.user.username %}
+                <a>Uploaded by you</a>
+            {% else %}
+                <a>Uploaded by {{ file.user.username }}</a>
+            {% endif %}
+            <a href="#" id="download-pdf-btn">
+                <button style="display: flex; align-items: center;" id="download-pdf">Download PDF 
+                    <svg style="margin-left: 0.5rem;" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-file-earmark-arrow-down-fill" viewBox="0 0 16 16">
+                        <path d="M9.293 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V4.707A1 1 0 0 0 13.707 4L10 .293A1 1 0 0 0 9.293 0M9.5 3.5v-2l3 3h-2a1 1 0 0 1-1-1m-1 4v3.793l1.146-1.147a.5.5 0 0 1 .708.708l-2 2a.5.5 0 0 1-.708 0l-2-2a.5.5 0 0 1 .708-.708L7.5 11.293V7.5a.5.5 0 0 1 1 0"/>
+                    </svg>
+                </button>
+            </a>
+        </nav>
+    </header>
+
+    <script>
+        document.getElementById('download-pdf-btn').addEventListener('click', function() {
+            // Get the filename
+            var filename = "{{ file.filename }}";
+            // Create an anchor element
+            var a = document.createElement('a');
+            // Set the href attribute to the download URL
+            a.href = "{{ url_for('static', filename='uploads/' + file.filename) }}";
+            // Set the download attribute to the filename
+            a.download = filename;
+            // Programmatically trigger a click event on the anchor element
+            a.click();
+        });
+    </script>
+</body>
+</html>

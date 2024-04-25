@@ -1,0 +1,273 @@
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap");
+
+/* styles.css */
+body {
+    font-family: "Montserrat", sans-serif;
+    background: #1e1a29;
+    overflow-x: hidden;
+}
+
+h1, h2 {
+    font-weight: 500;
+}
+
+
+html, body{
+    margin: 0px;
+    padding: 0px;
+}
+
+main {
+    display: grid;
+    place-items: center;
+    height: calc(100vh - 7rem);
+}
+
+h1, h2 {
+    color: rgb(255, 255, 255);
+}
+
+#logo {
+    cursor: pointer;
+}
+
+header {
+    padding-inline: 2rem;
+    background-color: #292836;
+}
+
+nav{
+    background-color: #292836;
+    height: 7rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+}
+
+ul {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 60px;
+}
+
+li, a {
+    list-style: none;
+    text-decoration: none;
+    color: rgb(227, 225, 210);
+    align-items: center;
+    display: flex;
+    gap: 5px;
+}
+
+embed {
+    box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.9);
+}
+
+form {
+    display: flex;
+    border-radius: 20px;
+    padding: 15px;
+    flex-direction: column;
+}
+
+.form {
+    text-align: center !important;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+.lib-list {
+    list-style-type: none;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(30%, 1fr));
+    gap: 15px;
+}
+
+.lib-list li {
+    background-color: #292836;
+    padding: 10px;
+    padding-left: 10px;
+    box-sizing: border-box;
+    border-radius: 5px;
+    margin-bottom: 10px; /* Add vertical spacing between rows */
+}
+
+
+
+button {
+    border: none;
+    color: white;
+    background: #4f4399;
+    border-radius: 5px;
+    padding: 10px;
+    font-family: "Montserrat", sans-serif;
+    cursor: pointer;
+}
+
+#delete {
+    background: #ce3838;
+    width: 50px;
+}
+
+/* Style the file input */
+input[type="file"] {
+    /* Hide default appearance */
+    display: none;
+}
+
+/* Style the custom button */
+.custom-file-input {
+    border: none;
+    color: white;
+    border: 2px dashed #4f4399;
+    background: transparent;
+    border-radius: 5px;
+    padding: 10px;
+    cursor: pointer;
+}
+
+/* Style the label for file input */
+.custom-file-label {
+    cursor: pointer;
+}
+
+.alert-success {
+    background-color: #28a745;
+    color: #fff;
+    padding: 15px;
+    margin-bottom: 10px;
+}
+
+/* Style for error flash messages */
+.alert-error {
+    background-color: #dc3545;
+    color: #fff;
+    padding: 15px;
+    margin-bottom: 10px;
+}
+
+.alert-info {
+    background-color: #356fdc;
+    color: #fff;
+    padding: 15px;
+    margin-bottom: 10px;
+}
+
+/* Add transition effect for opacity */
+.alert {
+    transition: opacity 1s ease;
+    position: absolute;
+    width: 100%;
+    top: 7rem;
+    left: 0;
+    text-align: center;
+}
+
+/* Define keyframes for fade-out animation */
+@keyframes fadeOut {
+    0% { opacity: 1; display: block; }
+    60% { opacity: 1; } /* Keeps opacity at 1 for 90% of animation duration */
+    100% { opacity: 0; display: none; } /* Reduces opacity to 0 at the end */
+}
+
+/* Apply fade-out animation to elements with the 'fade-out' class */
+.fade-out {
+    opacity: 0;
+    animation: fadeOut 3s ease forwards; /* Apply fade-out animation with a duration of 3 seconds */
+}
+
+
+label, .custom-file-label {
+    color: rgb(227, 225, 210);
+}
+
+::-webkit-scrollbar {
+    width: 10px; /* Set width of the scrollbar */
+}
+
+/* Scrollbar Thumb */
+::-webkit-scrollbar-thumb {
+    background-color: #888; /* Set color of the scrollbar thumb */
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
+
+/* Scrollbar Thumb on Hover */
+::-webkit-scrollbar-thumb:hover {
+    background-color: #555; /* Set color of the scrollbar thumb on hover */
+}
+
+input {
+    text-align: center;
+    color: white;
+    border: none;
+    border-bottom: 2px solid #4f4399;
+    background-color: transparent;
+    padding: 10px 30px;
+    padding-top: 25px;
+    outline: none;
+    font-size: 16px;
+    font-family: "Montserrat", sans-serif;
+}
+
+input::placeholder {
+    font-size: 16px;
+    font-family: "Montserrat", sans-serif;
+    color: rgb(227, 225, 210);
+    position: relative;
+    transition: transform 0.3s ease;
+}
+
+input:focus::placeholder, input:active::placeholder {
+    transform: translateY(-1rem);
+}
+
+.search:focus::placeholder, .search:active::placeholder {
+    transform: translateY(0rem);
+}
+
+button, .lib-list li {
+    transition: filter 0.15s ease;
+}
+
+button:hover, .lib-list li:hover {
+    filter: brightness(0.8);
+}
+
+.pfp {
+    border-radius: 25px;
+    width: 50px;
+    height: 50px;
+    overflow: hidden; /* Clip the image to the dimensions of the container */
+    border: 1px solid white;
+}
+
+.pfp img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Cover the entire container with the image, preserving its aspect ratio */
+}
+
+.profile {
+    background-color: #292836;
+    cursor: pointer;
+}
+
+.bell {
+    position: relative;
+}
+
+.dot {
+    position: absolute;
+    top: 2%;
+    right: 8%;
+    height: 8px;
+    width: 8px;
+    background-color: #4f4399;
+    border-radius: 50%;
+}
+

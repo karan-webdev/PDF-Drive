@@ -1,0 +1,47 @@
+<!-- community.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Community</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body>
+    {% include 'navbar.html' %}
+    <main>
+        {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="alert alert-{{ category }} fade-out">{{ message }}</div>
+            {% endfor %}
+            {% endif %}
+        {% endwith %}
+        <h2>Welcome {{ current_user.username }} to the Community page!</h2>
+        <div style="width: 35%; position: relative;">
+            <input class="search" style=" width: 100%; background-color: #292836; border-radius: 25px; border: none; padding: 0px; padding-block: 15px; display: flex; text-align: center; align-content: center;" type="text" id="searchInput" placeholder="Search" onkeyup="searchFiles()">
+            <svg style="position: absolute; top: 50%; left: 1.5rem; transform: translateY(-50%);" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="white" class="bi bi-search" viewBox="0 0 16 16">
+                <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"/>
+              </svg>
+            </div>
+        </div>
+        <!-- Add other content here -->
+        <form action="{{ url_for('search') }}" method="post">
+            <input type="text" name="search_query" placeholder="Search Users">
+            <button type="submit">Search</button>
+        </form>
+        
+        {% if users %}
+            <ul>
+            {% for user in users %}
+                <li>{{ user.username }} <a href="{{ url_for('initiate_chat', user_id=user.id) }}">Initiate Chat</a></li>
+            {% endfor %}
+            </ul>
+        {% else %}
+            <p>No users found.</p>
+        {% endif %}
+        
+    </main>
+</body>
+</html>

@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Upload File</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body>
+    {% include 'navbar.html' %}
+    <main>
+        {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="alert alert-{{ category }} fade-out">{{ message }}</div>
+            {% endfor %}
+        {% endif %}
+        {% endwith %}
+        <form method="POST" style="color: white;" action="" enctype="multipart/form-data">
+            <h2>Upload a File</h2>
+            <label for="file">Choose a file (PDF):</label> <br>
+            <label for="file" class="custom-file-input">
+                <span class="custom-file-label">Choose PDF File</span>
+              </label>
+              <input type="file" id="file" name="file" accept="application/pdf" required>
+              <br>
+            <button type="submit">Upload</button>
+        </form>    
+        <div style="display: flex; gap: 40px;">   
+            <div style="display: flex; flex-direction: column; max-height: 300px;  overflow-y: auto; padding-inline: 2rem;">
+                <div style="display: flex; align-items: center; justify-content: space-between;">
+                    <h2>Uploaded files (PDF'S)</h2>
+                    <div style="width: 35%; position: relative;">
+                    <input class="search" style=" width: 100%; background-color: #292836; border-radius: 25px; border: none; padding: 0px; padding-block: 15px; display: flex; text-align: center; align-content: center;" type="text" id="searchInput" placeholder="Search" onkeyup="searchFiles()">
+                    <svg style="position: absolute; top: 50%; left: 1.5rem; transform: translateY(-50%);" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="white" class="bi bi-search" viewBox="0 0 16 16">
+                        <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"/>
+                      </svg>
+                    </div>
+                </div>
+                
+                <ul class="lib-list">
+                    {% for file in files %}
+                        <li class="lib-item"><a href="{{ url_for('view', file_id=file.id, total_pages=10) }}">{{ file.filename }}</a></li>
+                    {% endfor %}
+                </ul>
+            </div>
+            <div style="display: flex; text-align: center; flex-direction: column; max-height: 240px;  overflow-y: auto; padding-inline: 2rem; justify-content: space-between;">
+                <h2>Your uploaded files:</h2>
+                {% if not files or not files|selectattr('user', 'equalto', current_user)|list %}
+                    <span class="custom-file-label">You have no files uploaded.</span>
+                {% else %}
+                    {% for file in files %}
+                        {% if file.user == current_user %}
+                            <div style="display: flex; justify-content: space-between; align-items: center; color: rgb(227, 225, 210);">
+                                <p style="display: inline;">{{ file.filename }}</p>
+                                <form action="{{ url_for('delete', file_id=file.id) }}" style="display: inline;" method="post">
+                                    <button id="delete" type="submit"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash3-fill" viewBox="0 0 16 16">
+                                        <path d="M11 1.5v1h3.5a.5.5 0 0 1 0 1h-.538l-.853 10.66A2 2 0 0 1 11.115 16h-6.23a2 2 0 0 1-1.994-1.84L2.038 3.5H1.5a.5.5 0 0 1 0-1H5v-1A1.5 1.5 0 0 1 6.5 0h3A1.5 1.5 0 0 1 11 1.5m-5 0v1h4v-1a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5M4.5 5.029l.5 8.5a.5.5 0 1 0 .998-.06l-.5-8.5a.5.5 0 1 0-.998.06m6.53-.528a.5.5 0 0 0-.528.47l-.5 8.5a.5.5 0 0 0 .998.058l.5-8.5a.5.5 0 0 0-.47-.528M8 4.5a.5.5 0 0 0-.5.5v8.5a.5.5 0 0 0 1 0V5a.5.5 0 0 0-.5-.5"/>
+                                    </svg></button>
+                                </form>
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                {% endif %}
+            </div>
+        </div> 
+    </main>
+
+    <script>
+        function searchFiles() {
+            // Declare variables
+            var input, filter, ul, li, a, i, txtValue;
+            input = document.getElementById('searchInput');
+            filter = input.value.toUpperCase();
+            ul = document.querySelector('.lib-list');
+            li = ul.querySelectorAll('.lib-item');
+
+            // Loop through all list items, and hide those who don't match the search query
+            for (i = 0; i < li.length; i++) {
+                a = li[i].getElementsByTagName("a")[0];
+                txtValue = a.textContent || a.innerText;
+                if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                    li[i].style.display = "";
+                } else {
+                    li[i].style.display = "none";
+                }
+            }
+        }
+    </script>
+</body>
+</html>
